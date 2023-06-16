@@ -42,8 +42,10 @@ class _MyAppState extends State<MyApp> {
     phone = Hive.box("LoginDetails").get("Phone No");
     if (phone != null) {
       recheckLogin();
+      setState(() {});
     } else {
       buildStartingPage = const LoginScreen();
+      setState(() {});
     }
   }
 
@@ -51,14 +53,15 @@ class _MyAppState extends State<MyApp> {
     await FirebaseFirestore.instance
         .collection("USERS")
         .get()
-        .then((value) =>
-        value.docs.forEach((element) {
-          phoneList.add(element.get("Phone No"));
-        }));
+        .then((value) => value.docs.forEach((element) {
+              phoneList.add(element.get("Phone No"));
+            }));
     if (phoneList.contains(phone)) {
       buildStartingPage = const ChatSelectorScreen();
+      setState(() {});
     } else {
       buildStartingPage = const LoginScreen();
+      setState(() {});
     }
   }
 
@@ -89,8 +92,9 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          pageTransitionsTheme: PageTransitionsTheme(builders:
-          {TargetPlatform.android : CupertinoPageTransitionsBuilder()}),
+          pageTransitionsTheme: PageTransitionsTheme(builders: {
+            TargetPlatform.android: CupertinoPageTransitionsBuilder()
+          }),
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.amberAccent,
